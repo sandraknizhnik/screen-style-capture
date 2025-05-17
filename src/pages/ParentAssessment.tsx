@@ -16,6 +16,10 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface ParentFormValues {
   childName: string;
@@ -32,7 +36,13 @@ interface ParentFormValues {
   energyLevels: string;
 }
 
+
 const ParentAssessment = () => {
+  const { language, setLanguage, translations } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
+  const isRTL = language === 'he';
+  const t = translations[language];
+
   const form = useForm<ParentFormValues>({
     defaultValues: {
       childName: "",
@@ -50,6 +60,7 @@ const ParentAssessment = () => {
     },
   });
 
+
   const onSubmit = (data: ParentFormValues) => {
     console.log(data);
     toast.success("שאלון נשלח בהצלחה!");
@@ -59,14 +70,24 @@ const ParentAssessment = () => {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-3xl mx-auto">
-        <div className="mb-6">
-          <Link to="/recommendations" className="flex items-center text-sm text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            חזרה להמלצות
-          </Link>
+        <div className="flex justify-between items-center mb-6">
+        <Link to="/recommendations" className="…">
+          <ArrowLeft className={`${isRTL ? 'ml-2' : 'mr-2'} h-4 w-4`} />
+          {t['back']}
+        </Link>
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher 
+              currentLanguage={language} 
+              onLanguageChange={setLanguage} 
+            />
+            <ThemeToggle 
+              isDarkMode={theme === 'dark'} 
+              onToggle={toggleTheme} 
+            />
+          </div>
         </div>
 
-        <h1 className="text-3xl font-bold mb-6 text-center">שאלון הורים למעקב התקדמות</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">{t['parent.title']}</h1>
         
         <Card>
           <CardContent className="pt-6">
@@ -79,7 +100,7 @@ const ParentAssessment = () => {
                     name="childName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>שם הילד/ה:</FormLabel>
+                         <FormLabel>{t['parent.childName']}</FormLabel>
                         <FormControl>
                           <Input placeholder="שם הילד/ה" {...field} />
                         </FormControl>
@@ -102,7 +123,7 @@ const ParentAssessment = () => {
                   />
                 </div>
 
-                <h2 className="text-xl font-semibold pt-4">תצפיות על שגרה יומית</h2>
+                <h2 className="text-xl font-semibold pt-4">{t['parent.dailyRoutine']}</h2>
                 
                 {/* Morning Routine */}
                 <FormField
@@ -110,7 +131,7 @@ const ParentAssessment = () => {
                   name="morningRoutine"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>השלמת שגרת הבוקר:</FormLabel>
+                      <FormLabel>{t['parent.morningRoutine']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -150,7 +171,7 @@ const ParentAssessment = () => {
                   name="dietPlanAdherence"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>דבקות בתוכנית תזונה מומלצת:</FormLabel>
+                      <FormLabel>{t['parent.diet']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -184,7 +205,7 @@ const ParentAssessment = () => {
                   )}
                 />
 
-                <h2 className="text-xl font-semibold pt-4">מעורבות בפעילות גופנית</h2>
+                <h2 className="text-xl font-semibold pt-4">{t['parent.physicalActivity']}</h2>
                 
                 {/* Activity Participation */}
                 <FormField
@@ -192,7 +213,7 @@ const ParentAssessment = () => {
                   name="activityParticipation"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>השתתפות בפעילויות מומלצות:</FormLabel>
+                      <FormLabel>{t['parent.participation']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -232,7 +253,7 @@ const ParentAssessment = () => {
                   name="physicalActivityLevel"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>כיצד היית מתאר/ת את רמת הפעילות הגופנית הנוכחית של ילדך?</FormLabel>
+                      <FormLabel>{t['parent.activityLevel']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -272,7 +293,7 @@ const ParentAssessment = () => {
                   name="focusAfterActivity"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>האם הבחנת בשיפור ביכולת הריכוז של ילדך לאחר פעילות גופנית?</FormLabel>
+                      <FormLabel>{t['parent.improvement']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -302,7 +323,7 @@ const ParentAssessment = () => {
                   )}
                 />
 
-                <h2 className="text-xl font-semibold pt-4">דבקות בתוכנית תזונה</h2>
+                <h2 className="text-xl font-semibold pt-4">{t['parent.nutrition']}</h2>
 
                 {/* Meal Schedule Adherence */}
                 <FormField
@@ -310,7 +331,7 @@ const ParentAssessment = () => {
                   name="mealScheduleAdherence"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>מעקב אחר לוח זמני ארוחות מומלץ:</FormLabel>
+                      <FormLabel>{t['parent.mealSchedule']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -350,7 +371,7 @@ const ParentAssessment = () => {
                   name="eatingHabits"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>הרגלי האכילה של ילדי השתפרו:</FormLabel>
+                      <FormLabel>{t['parent.eatingHabits']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -384,15 +405,14 @@ const ParentAssessment = () => {
                   )}
                 />
 
-                <h2 className="text-xl font-semibold pt-4">התנהגות בבית</h2>
-
+                <h2 className="text-xl font-semibold pt-4">{t['parent.homeBehavior']}</h2>
                 {/* Homework Completion */}
                 <FormField
                   control={form.control}
                   name="homeworkCompletion"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>באיזו תדירות הילד/ה מסיים/ת שיעורי בית ללא תזכורות מתמידות?</FormLabel>
+                      <FormLabel>{t['parent.homework']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -432,7 +452,7 @@ const ParentAssessment = () => {
                   name="sleepSchedule"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>לוח הזמנים של השינה של ילדי השתפר:</FormLabel>
+                      <FormLabel>{t['parent.sleep']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -472,7 +492,7 @@ const ParentAssessment = () => {
                   name="energyLevels"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>כיצד היית מדרג/ת את רמות האנרגיה הכלליות של ילדך במהלך היום?</FormLabel>
+                      <FormLabel>{t['parent.energy']}</FormLabel>
                       <FormControl>
                         <RadioGroup 
                           onValueChange={field.onChange} 
@@ -507,7 +527,7 @@ const ParentAssessment = () => {
                 />
 
                 <div className="pt-6">
-                  <Button type="submit" className="w-full">שלח שאלון</Button>
+                  <Button type="submit">{t['submit']}</Button>
                 </div>
               </form>
             </Form>

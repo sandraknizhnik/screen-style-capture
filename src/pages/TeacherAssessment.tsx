@@ -16,6 +16,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { useTheme } from '@/contexts/ThemeContext';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface TeacherFormValues {
   studentName: string;
@@ -32,8 +35,11 @@ interface TeacherFormValues {
 }
 
 const TeacherAssessment = () => {
-  const { language } = useLanguage();
-  const isRTL = language === 'he';
+const { language, setLanguage, translations } = useLanguage();
+const t = translations[language];
+const isRTL = language === 'he';
+const { theme, toggleTheme } = useTheme();
+
   
   const form = useForm<TeacherFormValues>({
     defaultValues: {
@@ -61,12 +67,22 @@ const TeacherAssessment = () => {
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-3xl mx-auto">
         <div className="mb-6">
-          <Link to="/recommendations" className={`flex items-center text-sm text-muted-foreground hover:text-foreground ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <ArrowLeft className={`${isRTL ? 'ml-2' : 'mr-2'} h-4 w-4`} />
-            {isRTL ? 'חזרה להמלצות' : 'Back to Recommendations'}
-          </Link>
         </div>
-
+        <div className="flex justify-between items-center mb-6">
+        <Link
+           to="/recommendations"
+           className={`flex items-center text-sm text-muted-foreground hover:text-foreground ${isRTL ? 'flex-row-reverse' : ''}`}
+         >
+           <ArrowLeft className={`${isRTL ? 'ml-2' : 'mr-2'} h-4 w-4`} />
+           {isRTL ? 'חזרה להמלצות' : 'Back to Recommendations'}
+         </Link>
+      
+         {/* ⚙️ here: language + theme toggles */}
+         <div className="flex items-center space-x-4">
+           <LanguageSwitcher currentLanguage={language} onLanguageChange={setLanguage} />
+           <ThemeToggle isDarkMode={theme === 'dark'} onToggle={toggleTheme} />
+         </div>
+       </div>
         <h1 className="text-3xl font-bold mb-6 text-center">
           {isRTL ? 'שאלון מורה למעקב התקדמות' : 'Teacher Progress Assessment Form'}
         </h1>
@@ -281,44 +297,24 @@ const TeacherAssessment = () => {
                 </h2>
                 
                 {/* Energy Level */}
-                <FormField
-                  control={form.control}
-                  name="energyLevel"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel>רמת האנרגיה של התלמיד/ה מתאימה לפעילויות למידה:</FormLabel>
-                      <FormControl>
-                        <RadioGroup 
-                          onValueChange={field.onChange} 
-                          defaultValue={field.value} 
-                          className="flex flex-col space-y-1"
-                        >
-                          <div className="flex items-center space-x-2 space-x-reverse">
-                            <RadioGroupItem value="1" id="energyLevel-1" />
-                            <FormLabel htmlFor="energyLevel-1" className="font-normal cursor-pointer">אף פעם</FormLabel>
+                <FormField name="energyLevel" control={form.control} render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t['teacher.energyLevel']}</FormLabel>
+                    <FormControl>
+                      <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
+                        {[1,2,3,4,5].map(i => (
+                          <div key={i} className="flex items-center">
+                            <RadioGroupItem value={`${i}`} id={`energyLevel-${i}`} />
+                            <FormLabel htmlFor={`energyLevel-${i}`}>
+                              {t[`teacher.energyLevel.option${i}`]}
+                            </FormLabel>
                           </div>
-                          <div className="flex items-center space-x-2 space-x-reverse">
-                            <RadioGroupItem value="2" id="energyLevel-2" />
-                            <FormLabel htmlFor="energyLevel-2" className="font-normal cursor-pointer">לעתים רחוקות</FormLabel>
-                          </div>
-                          <div className="flex items-center space-x-2 space-x-reverse">
-                            <RadioGroupItem value="3" id="energyLevel-3" />
-                            <FormLabel htmlFor="energyLevel-3" className="font-normal cursor-pointer">לפעמים</FormLabel>
-                          </div>
-                          <div className="flex items-center space-x-2 space-x-reverse">
-                            <RadioGroupItem value="4" id="energyLevel-4" />
-                            <FormLabel htmlFor="energyLevel-4" className="font-normal cursor-pointer">לעתים קרובות</FormLabel>
-                          </div>
-                          <div className="flex items-center space-x-2 space-x-reverse">
-                            <RadioGroupItem value="5" id="energyLevel-5" />
-                            <FormLabel htmlFor="energyLevel-5" className="font-normal cursor-pointer">תמיד</FormLabel>
-                          </div>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}/>
 
                 {/* Alertness */}
                 <FormField

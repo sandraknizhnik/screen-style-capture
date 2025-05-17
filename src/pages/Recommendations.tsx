@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Activity, Nut, Recycle, ClipboardCheck } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ const Recommendations = () => {
   const { language, setLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const isRTL = language === 'he';
+  const navigate = useNavigate();
   
   return (
     <div className="min-h-screen bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -27,9 +29,17 @@ const Recommendations = () => {
               alt="BrainBridge Logo" 
               className="h-12 w-auto"
             />
-            <div className="text-sm text-muted-foreground">
-              {isRTL ? '> צפה בהמלצות > המלצות' : '> View recommendations > Recommendations'}
-            </div>
+            <span className="text-muted-foreground">
+              <span
+                onClick={() => navigate('/')}
+                className="hover:text-foreground cursor-pointer underline"
+              >
+                {isRTL ? 'מסך בית ' : 'Home screen'}
+              </span>
+              <span>
+                {isRTL ? ' >   המלצות ותוצאות אבחון' : ' > Recommendations and Results'}
+              </span>
+            </span>
           </div>
           <div className="flex items-center space-x-4">
             <LanguageSwitcher 

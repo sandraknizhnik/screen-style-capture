@@ -12,7 +12,7 @@ interface LanguageContextType {
 // Initial translations
 const translations = {
   en: {
-    // Common
+   // Common
     'goodMorning': 'Good morning',
     'settings': 'Settings',
     'logout': 'Log out',
@@ -59,7 +59,36 @@ const translations = {
     'teacher.physicalActivity': 'Physical Activity Response',
     'teacher.engagement': 'Engagement in assigned physical activities:',
     'teacher.concentration': 'Has the student shown improved concentration after physical activity sessions?',
-    
+
+    // Teacher assessment options
+    'teacher.energyLevel.option1': 'Never',
+    'teacher.energyLevel.option2': 'Rarely',
+    'teacher.energyLevel.option3': 'Sometimes',
+    'teacher.energyLevel.option4': 'Often',
+    'teacher.energyLevel.option5': 'Always',
+
+    'teacher.alertness.option1': 'Never',
+    'teacher.alertness.option2': 'Rarely',
+    'teacher.alertness.option3': 'Sometimes',
+    'teacher.alertness.option4': 'Often',
+    'teacher.alertness.option5': 'Always',
+
+    'teacher.seating.option1': 'Distracts me',
+    'teacher.seating.option2': 'No noticeable effect',
+    'teacher.seating.option3': 'Helps a little',
+    'teacher.seating.option4': 'Helps a lot',
+
+    'teacher.engagement.option1': 'Refuses to participate',
+    'teacher.engagement.option2': 'Minimal participation',
+    'teacher.engagement.option3': 'Moderate participation',
+    'teacher.engagement.option4': 'Good participation',
+    'teacher.engagement.option5': 'Excellent participation',
+
+    'teacher.concentration.option1': 'No improvement',
+    'teacher.concentration.option2': 'Slight improvement',
+    'teacher.concentration.option3': 'Moderate improvement',
+    'teacher.concentration.option4': 'Significant improvement',
+
     // Parent assessment
     'parent.title': 'Parent Assessment',
     'parent.dailyRoutine': 'Daily Routine Observations',
@@ -134,7 +163,36 @@ const translations = {
     'teacher.physicalActivity': 'תגובה לפעילות גופנית',
     'teacher.engagement': 'מעורבות בפעילויות גופניות:',
     'teacher.concentration': 'האם התלמיד הראה ריכוז משופר לאחר פעילות גופנית?',
-    
+
+    // Teacher assessment options
+    'teacher.energyLevel.option1': 'אף פעם',
+    'teacher.energyLevel.option2': 'לעתים רחוקות',
+    'teacher.energyLevel.option3': 'לפעמים',
+    'teacher.energyLevel.option4': 'לעתים קרובות',
+    'teacher.energyLevel.option5': 'תמיד',
+
+    'teacher.alertness.option1': 'אף פעם',
+    'teacher.alertness.option2': 'לעתים רחוקות',
+    'teacher.alertness.option3': 'לפעמים',
+    'teacher.alertness.option4': 'לעתים קרובות',
+    'teacher.alertness.option5': 'תמיד',
+
+    'teacher.seating.option1': 'משפיע לרעה על הריכוז',
+    'teacher.seating.option2': 'אין השפעה ניכרת',
+    'teacher.seating.option3': 'משפר מעט את הריכוז',
+    'teacher.seating.option4': 'משפר משמעותית את הריכוז',
+
+    'teacher.engagement.option1': 'מסרב/ת להשתתף',
+    'teacher.engagement.option2': 'השתתפות מינימלית',
+    'teacher.engagement.option3': 'השתתפות בינונית',
+    'teacher.engagement.option4': 'השתתפות טובה',
+    'teacher.engagement.option5': 'השתתפות מצוינת',
+
+    'teacher.concentration.option1': 'ללא שיפור',
+    'teacher.concentration.option2': 'שיפור קל',
+    'teacher.concentration.option3': 'שיפור בינוני',
+    'teacher.concentration.option4': 'שיפור משמעותי',
+
     // Parent assessment
     'parent.title': 'שאלון להורה',
     'parent.dailyRoutine': 'תצפיות על שגרה יומית',

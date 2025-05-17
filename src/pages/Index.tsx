@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import { Settings, LogOut } from 'lucide-react';
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-
+import React, { useState, useEffect, useCallback } from 'react';
 import Logo from '@/components/Logo';
 import Clock from '@/components/Clock';
 import TaskItem from '@/components/TaskItem';
@@ -49,7 +48,7 @@ const Index = () => {
     "2": true // Task 2 is initially completed
   });
 
-  const getTasks = () => {
+  const getTasks = useCallback(() => {
     const taskList = [
       { 
         id: "1", 
@@ -103,7 +102,7 @@ const Index = () => {
       ...task,
       completed: !!taskCompletionState[task.id]
     }));
-  };
+  }, [t, taskCompletionState]);
 
   const [tasks, setTasks] = useState<Task[]>(getTasks());
   
@@ -113,7 +112,7 @@ const Index = () => {
   // Update tasks when language changes, but keep completion state
   useEffect(() => {
     setTasks(getTasks());
-  }, [language, taskCompletionState]);
+  }, [language, taskCompletionState, getTasks]);
 
   useEffect(() => {
     document.documentElement.dir = language === 'he' ? 'rtl' : 'ltr';
